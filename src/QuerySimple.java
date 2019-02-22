@@ -24,7 +24,7 @@ public class QuerySimple {
 		this.indexPath = indexPath;
 	}
 
-	public void process(String querystr) throws IOException, ParseException {
+	public ScoreDoc[] process(String querystr) throws IOException, ParseException {
 		
 		StandardAnalyzer analyzer = new StandardAnalyzer();
 		
@@ -50,5 +50,6 @@ public class QuerySimple {
 		}
 
 		reader.close();
+		return hits;
 	}
 }

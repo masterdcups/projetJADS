@@ -59,22 +59,22 @@ public class IndexCollection {
 	}
 
 	public void process() throws IOException {
-		
+
 		Path path = new File(indexPath).toPath();
-		
+
 		Directory dir = FSDirectory.open(path);
 		Analyzer analyzer = new StandardAnalyzer();
 		IndexWriterConfig iwc = new IndexWriterConfig(analyzer);
 		boolean create = true;
-		
+
 		if (create)
 			iwc.setOpenMode(OpenMode.CREATE);
 		else
 			iwc.setOpenMode(OpenMode.CREATE_OR_APPEND);
-		
-		
+
+
 		writer = new IndexWriter(dir, iwc);
-		
+
 		try {
 			CSVParser csvFileParser = CSVFormat.DEFAULT.parse(new FileReader(new File(filename)));
 			for (CSVRecord csvRecord : csvFileParser) {
