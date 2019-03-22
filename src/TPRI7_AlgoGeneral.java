@@ -1,18 +1,19 @@
 
 
-import java.io.BufferedInputStream;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.StringWriter;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
-
 import autre.Phrase;
 import tf.TFLog;
 
@@ -23,7 +24,7 @@ public class TPRI7_AlgoGeneral{
 	List<String> motnuls = new LinkedList<>();
 
 	public TPRI7_AlgoGeneral() {
-		folder = new File("critiques/projects/test-summarization/topics");
+		folder = new File("res/");
 		for (int i = 0; i < folder.listFiles().length; i++)
 			listeFich.add(folder.listFiles()[i]);
 	}
@@ -33,7 +34,7 @@ public class TPRI7_AlgoGeneral{
 		TPRI7_AlgoGeneral yo = new TPRI7_AlgoGeneral();
 		for (Iterator<File> it = yo.listeFich.iterator(); it.hasNext();) {
 			File f = it.next();
-			String s = yo.AlgoGeneral(yo.loadFile(f), 3);
+			String s = yo.AlgoGeneral(f, 3);
 			System.out.println(s);
 			// break;
 			yo.WriteRes(f.getName().split(".data")[0], s);
@@ -51,21 +52,6 @@ public class TPRI7_AlgoGeneral{
 		}
 	}
 
-	public String loadFile(File f) {
-		StringWriter out = new StringWriter();
-		try {
-			BufferedInputStream in = new BufferedInputStream(new FileInputStream(f));
-			int b;
-			while ((b = in.read()) != -1)
-				out.write(b);
-			out.flush();
-			out.close();
-			in.close();
-		} catch (IOException ie) {
-			ie.printStackTrace();
-		}
-		return out.toString();
-	}
 
 	private float freqMot(String mot, List<String> mots) {
 		int nb = 0;
@@ -105,17 +91,33 @@ public class TPRI7_AlgoGeneral{
 		
 	}
 
-	public String AlgoGeneral(String texte, int lonRes) {
+	public String AlgoGeneral(File f, int lonRes) {
 		Set<Phrase> ensemble = new TreeSet<>();
-		List<String> phrase = Arrays.asList(texte.split("[\\.\\!\\?\\|]"));
-		int i = 0;
-		for (Iterator<String> it = phrase.iterator(); it.hasNext();) {
-			i++;
-			String curr = it.next();
-			// System.out.println("Fichier : " + curr);
-			ensemble.add(new Phrase(curr, calculPoids(phrase, curr)));
+		List<String> tweets = new ArrayList<>();
+		StringWriter out = new StringWriter();
+		try {
+			BufferedReader buff = new BufferedReader(new InputStreamReader(new FileInputStream(f)));
+			String l;
+			int i = 0;
+			while((l = buff.readLine()) != null ) {
+				System.out.println(i++);
+				tweets.add(l);
+				// System.out.println("Fichier : " + curr);
+			}
+			buff.close();
+			out.close();
+			
+		} catch (IOException ie) {
+			ie.printStackTrace();
 		}
-		System.out.println(ensemble.size() + "/" + i);
+		for(Iterator<String> it = tweets.iterator(); it.hasNext();) {
+			String curr = it.next(); 
+			ensemble.add(new Phrase(curr, calculPoids(tweets, curr)));
+		}
+		//List<String> phrase = Arrays.asList(texte.split("[\\.\\!\\?\\|]"));
+		//int i = 0;
+		
+		System.out.println(ensemble.size() + "/" + tweets.size());
 		String ret = "";
 		for (int l = 0; l < lonRes; l++) {
 			Iterator<Phrase> it = ensemble.iterator();
