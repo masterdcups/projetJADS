@@ -24,7 +24,7 @@ public class QuerySimple {
 		this.indexPath = indexPath;
 	}
 
-	public ScoreDoc[] process(String querystr) throws IOException, ParseException {
+	public ScoreDoc[] process(String querystr, int nb) throws IOException, ParseException {
 		
 		StandardAnalyzer analyzer = new StandardAnalyzer();
 		
@@ -33,7 +33,7 @@ public class QuerySimple {
 
 		Query q = new QueryParser("Text", analyzer).parse(querystr);
 
-		int hitsPerPage = 10;
+		int hitsPerPage = nb;
 		IndexReader reader = DirectoryReader.open(index);
 
 		IndexSearcher searcher = new IndexSearcher(reader);

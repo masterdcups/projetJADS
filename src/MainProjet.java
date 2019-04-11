@@ -18,31 +18,33 @@ public class MainProjet {
 	String nameFolderIndex;
 	File corpus;
 	File corpusTxt;
-	
+
 	public MainProjet() {
-		nameFile = "index/iotCSV.csv";
+		nameFile = "index/corpus.csv";
 		nameFolderIndex = "index/";
-		corpus = new File(nameFile);
+		corpus = new File(nameFolderIndex);
 		corpusTxt = new File("corpus.txt");
 	}
 
 	public static void main(String[] args) {
 		MainProjet main = new MainProjet();
-		// main.index();
-		ScoreDoc[] q = main.query("Text:IoT");
-		main.sdToTxt(q, main.corpus);
-		/*Resume res = new Resume(main.corpusTxt);
-		String s = res.AlgoGeneral(res.loadFile(main.corpusTxt), 3);
-		res.WriteRes(res.corpus.getName().split(".data")[0], s);*/
+		//main.index();
+		ScoreDoc[] q = main.query("Text:Things", 1000);
+		main.sdToTxt(q, main.corpusTxt, main.corpus);
+		Resume res = new Resume(main.corpusTxt);
+		String s = res.AlgoGeneral(main.corpusTxt, 5);
+		System.out.println(s);
+		res.WriteRes(res.corpus.getName(), s);
 	}
 
-	public void sdToTxt(ScoreDoc[] s, File f) {
+	public void sdToTxt(ScoreDoc[] s, File f, File corpus) {
 		try {
 			f.createNewFile();
-			Path path = f.toPath();
+			Path path = corpus.toPath();
+			//System.out.println(path);
 			Directory index = FSDirectory.open(path);
-
 			FileWriter fw = new FileWriter(f);
+			//System.out.println(f);
 			IndexReader reader = DirectoryReader.open(index);
 
 			IndexSearcher searcher = new IndexSearcher(reader);
@@ -54,6 +56,7 @@ public class MainProjet {
 			}
 			fw.close();
 		} catch (Exception e) {
+			e.printStackTrace();
 		}
 
 	}
@@ -67,10 +70,10 @@ public class MainProjet {
 		}
 	}
 
-	private ScoreDoc[] query(String query) {
+	private ScoreDoc[] query(String query, int nb) {
 		QuerySimple qs = new QuerySimple(nameFolderIndex);
 		try {
-			ScoreDoc[] q = qs.process(query);
+			ScoreDoc[] q = qs.process(query, nb);
 			return q;
 		} catch (Exception ex) {
 			Logger.getLogger(MainProjet.class.getName()).log(Level.SEVERE, null, ex);

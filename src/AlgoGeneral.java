@@ -17,20 +17,34 @@ import java.util.TreeSet;
 import autre.Phrase;
 import tf.TFLog;
 
-public class Resume{
+public class AlgoGeneral{
 
-	File corpus;
+	File folder;
 	List<File> listeFich = new LinkedList<>();
 	List<String> motnuls = new LinkedList<>();
 
-	public Resume(File corpus) {
-		this.corpus = corpus;
+	public AlgoGeneral() {
+		folder = new File("res/");
+		for (int i = 0; i < folder.listFiles().length; i++)
+			listeFich.add(folder.listFiles()[i]);
+	}
+
+	public static void main(String[] args) {
+		//Algo general
+		AlgoGeneral yo = new AlgoGeneral();
+		for (Iterator<File> it = yo.listeFich.iterator(); it.hasNext();) {
+			File f = it.next();
+			String s = yo.AlgoGeneral(f, 3);
+			System.out.println(s);
+			// break;
+			yo.WriteRes(f.getName().split(".data")[0], s);
+		}
 	}
 
 	public void WriteRes(String name, String res) {
 		try {
 			FileWriter fw = new FileWriter(
-					new File("res/resume.txt"));
+					new File("autres/" + name + ".sys.algo"));
 			fw.write(res, 0, res.length());
 			fw.close();
 		} catch (IOException e) {
@@ -75,6 +89,10 @@ public class Resume{
 		}
 		return total;
 	}
+	
+	public void majEnsemble(Set<Phrase> ensemble, String resume) {
+		
+	}
 
 	public String AlgoGeneral(File f, int lonRes) {
 		Set<Phrase> ensemble = new TreeSet<>();
@@ -83,11 +101,11 @@ public class Resume{
 		try {
 			BufferedReader buff = new BufferedReader(new InputStreamReader(new FileInputStream(f)));
 			String l;
-			//int i = 0;
-			while(((l = buff.readLine()) != null)) {
-				//System.out.println(i++);
+			int i = 0;
+			while(((l = buff.readLine()) != null) && i < 1000) {
+				System.out.println(i++);
 				tweets.add(l);
-				//System.out.println("Fichier : " + l);
+				System.out.println("Fichier : " + l);
 			}
 			buff.close();
 			out.close();
