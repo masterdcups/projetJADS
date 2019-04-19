@@ -16,8 +16,6 @@ import org.apache.lucene.store.FSDirectory;
 
 public class QuerySimple {
 
-	String filename;
-	String titleString;
 	String indexPath;
 
 	public QuerySimple(String indexPath) {
@@ -40,13 +38,10 @@ public class QuerySimple {
 		TopScoreDocCollector collector = TopScoreDocCollector.create(hitsPerPage);
 		searcher.search(q, collector);
 		ScoreDoc[] hits = collector.topDocs().scoreDocs;
-
-		System.out.println("Found " + hits.length + " hits of " + collector.getTotalHits() + ".");
 		
 		for (int i = 0; i < hits.length; ++i) {
 			int docId = hits[i].doc;
 			Document d = searcher.doc(docId);
-			System.out.println((i + 1) + ". " + d.get("Text"));
 		}
 
 		reader.close();

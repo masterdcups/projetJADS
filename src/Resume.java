@@ -1,5 +1,3 @@
-
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -10,18 +8,15 @@ import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 import autre.Phrase;
-import tf.TFLog;
+import tf_idf.TFLog;
 
 public class Resume{
 
 	File corpus;
-	List<File> listeFich = new LinkedList<>();
-	List<String> motnuls = new LinkedList<>();
 
 	public Resume(File corpus) {
 		this.corpus = corpus;
@@ -46,7 +41,6 @@ public class Resume{
 				nb++;
 			}
 		}
-		//System.out.println(nb);
 		return nb;
 	}
 	
@@ -57,7 +51,6 @@ public class Resume{
 				nb++;
 			}
 		}
-		//System.out.println(nb);
 		return nb;
 	}
 
@@ -71,7 +64,6 @@ public class Resume{
 			temp1 = monTF.tf(freqMot(curr, mots));
 			temp2 = monTF.idf(phrases.size(), (long)freqPhrase(curr, phrases));
 			total += temp1*temp2; // poids du mot
-			//System.out.println(curr+" = "+total+" tf = "+temp1+" idf = "+temp2+" = "+(long)freqPhrase(curr, phrases));
 		}
 		return total;
 	}
@@ -85,9 +77,7 @@ public class Resume{
 			String l;
 			//int i = 0;
 			while(((l = buff.readLine()) != null)) {
-				//System.out.println(i++);
 				tweets.add(l);
-				//System.out.println("Fichier : " + l);
 			}
 			buff.close();
 			out.close();
@@ -104,23 +94,15 @@ public class Resume{
 			//System.out.println(curr);
 			ensemble.add(new Phrase(curr, calculPoids(tweets, curr)));
 		}
-		//List<String> phrase = Arrays.asList(texte.split("[\\.\\!\\?\\|]"));
-		//int i = 0;
-		
-//		System.out.println(ensemble.size() + "/" + tweets.size());
-//		for(Iterator<Phrase> it = ensemble.iterator(); it.hasNext();) {
-//			System.out.println(it.next().getTexte());
-//		}
+
 		String ret = "";
 		Iterator<Phrase> it = ensemble.iterator();
 		for (int l = 0; l < lonRes; l++) {
 			Phrase p = it.next();
-			//System.out.println(p.getTexte().length()+" / "+p.getPoids());
 			
 			/* Nbr de phrases */
 			ret += p.getTexte()+"\n";
-			
-			//System.out.println(s.length()+"/"+l+"/"+lonRes+"/"+s);
+
 		}
 		return ret;
 	}

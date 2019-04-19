@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 import autre.Phrase;
-import tf.TFLog;
+import tf_idf.TFLog;
 
 public class AlgoGeneral{
 
@@ -85,7 +85,7 @@ public class AlgoGeneral{
 			temp1 = monTF.tf(freqMot(curr, mots));
 			temp2 = monTF.idf(phrases.size(), (long)freqPhrase(curr, phrases));
 			total += temp1*temp2; // poids du mot
-			//System.out.println(curr+" = "+total+" tf = "+temp1+" idf = "+temp2+" = "+(long)freqPhrase(curr, phrases));
+			//System.out.println(curr+" = "+total+" tf_idf = "+temp1+" idf = "+temp2+" = "+(long)freqPhrase(curr, phrases));
 		}
 		return total;
 	}

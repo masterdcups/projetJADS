@@ -21,7 +21,6 @@ import org.apache.lucene.store.FSDirectory;
 public class IndexCollection {
 
 	String filename;
-	String titleString;
 	String indexPath;
 	IndexWriter writer;
 
