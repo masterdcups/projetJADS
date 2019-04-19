@@ -1,7 +1,6 @@
 package graphe;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
 public class Graphe {
 
@@ -25,7 +24,6 @@ public class Graphe {
             return n;
         }else {
             Node newNode = new Node(mot, parent, fils);
-            noeuds.add(newNode);
             parent.addFils(newNode);
             return newNode;
         }
@@ -44,6 +42,7 @@ public class Graphe {
         ArrayList<String> resultat = new ArrayList<String>();
         while(n != null){
             resultat.add(n.getMot());
+            n.nodeNull();
             n = n.meilleurVoisin();
         }
         return resultat;

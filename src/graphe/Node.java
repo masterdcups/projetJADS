@@ -1,7 +1,6 @@
 package graphe;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
 public class Node {
 
@@ -21,9 +20,8 @@ public class Node {
         this.mot = mot;
         this.parent = parent;
         this.distance = parent.distance++;
-        for (Node v : fils){
+        for (Node v : fils)
             this.fils.add(v);
-        }
     }
 
     public void incrementerCount(){
@@ -53,6 +51,10 @@ public class Node {
 
     public void addFils (Node fils){
         this.fils.add(fils);
+    }
+
+    public void nodeNull (){
+        count = -1;
     }
 
     public ArrayList<Node> getfils() {

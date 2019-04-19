@@ -22,14 +22,9 @@ public class PhraseReinforcement {
         try {
             BufferedReader buff = new BufferedReader(new InputStreamReader(new FileInputStream(corpus)));
             String l;
-
             while(((l = buff.readLine()) != null))
                 constructionDuGraphe(l.split(" "));
-            System.out.println(grapheGauche.toString());
-            System.out.println(grapheDroite.toString());
             buff.close();
-
-
         } catch (IOException ie) {
             ie.printStackTrace();
         }
@@ -64,7 +59,7 @@ public class PhraseReinforcement {
         }
     }
 
-    public String resultatResume (){
+    public String calculResume (){
         ArrayList<String> resultat = new ArrayList<>();
         resultat.addAll(grapheGauche.resultat());
         Collections.reverse(resultat);
@@ -74,5 +69,13 @@ public class PhraseReinforcement {
         for(String mot : resultat)
             phraseResume += mot + " ";
         return phraseResume;
+    }
+
+    public String resultatResume (int longRes){
+        String resume = "";
+        for (int i=0; i < longRes; i++){
+            resume += calculResume() + "\n";
+        }
+        return resume;
     }
 }

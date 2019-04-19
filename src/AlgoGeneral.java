@@ -21,7 +21,6 @@ public class AlgoGeneral{
 
 	File folder;
 	List<File> listeFich = new LinkedList<>();
-	List<String> motnuls = new LinkedList<>();
 
 	public AlgoGeneral() {
 		folder = new File("res/");

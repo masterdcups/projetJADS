@@ -22,35 +22,19 @@ public class Resume{
 		this.corpus = corpus;
 	}
 
-	public void WriteRes(String name, String res) {
-		try {
-			FileWriter fw = new FileWriter(
-					new File("res/resume.txt"));
-			fw.write(res, 0, res.length());
-			fw.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
-
 	private float freqMot(String mot, List<String> mots) {
 		int nb = 0;
-		for (Iterator<String> it = mots.iterator(); it.hasNext();) {
-			if (it.next().equals(mot)) {
+		for (Iterator<String> it = mots.iterator(); it.hasNext();)
+			if (it.next().equals(mot))
 				nb++;
-			}
-		}
 		return nb;
 	}
 	
 	private float freqPhrase(String mot, List<String> phrases) {
 		int nb = 0;
-		for (Iterator<String> it = phrases.iterator(); it.hasNext();) {
-			if (it.next().contains(mot)) {
+		for (Iterator<String> it = phrases.iterator(); it.hasNext();)
+			if (it.next().contains(mot))
 				nb++;
-			}
-		}
 		return nb;
 	}
 
@@ -89,9 +73,6 @@ public class Resume{
 		for(Iterator<String> it = tweets.iterator(); it.hasNext();) {
 			String curr = it.next(); 
 			i++;
-			if(i%1000 == 0)
-				System.out.println(i);
-			//System.out.println(curr);
 			ensemble.add(new Phrase(curr, calculPoids(tweets, curr)));
 		}
 
